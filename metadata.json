@@ -1,0 +1,8 @@
+{
+  "name": "المحاسب الشامل",
+  "description": "تطبيق محاسبي وإدارة ديون ومبيعات متقدم يعمل بالكامل بدون إنترنت مع المستشار الذكي، تصدير PDF/Excel، ومزامنة آمنة.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

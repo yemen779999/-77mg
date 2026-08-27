@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم السحابية المحترفة - المحاسب anas برو</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind Custom Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            superdark: '#0f172a',
+                            carddark: '#1e293b',
+                            primary: '#3b82f6',
+                            emerald: '#10b981',
+                            rose: '#f43f5e',
+                            amber: '#f59e0b',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap');
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+        /* Custom Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased">
+
+    <!-- Top Navigation Header -->
+    <nav class="border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-50 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="p-2.5 bg-blue-600/10 text-blue-400 rounded-2xl border border-blue-500/20">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-lg md:text-xl font-extrabold text-white tracking-wide">لوحة التحكم السحابية للموزعين والعملاء</h1>
+                    <p class="text-xs text-slate-400">المحاسب anas برو (Pro Ledger Admin) • واجهة فورية دون تثبيت 💻</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <div class="px-3.5 py-1.5 rounded-full bg-slate-800 border border-slate-700 text-xs text-slate-300 flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span>قاعدة البيانات: متصلة محلياً ونشطة</span>
+                </div>
+                <button onclick="resetToDefaults()" class="p-2 text-slate-400 hover:text-white hover:bg-slate-800 rounded-xl transition" title="استعادة البيانات الأصلية">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 1121.21 8H17"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Body -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 space-y-6">
+        
+        <!-- Alerts and Simulation Banner -->
+        <div class="bg-blue-900/20 border border-blue-500/20 rounded-2xl p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div class="flex items-start gap-3">
+                <span class="text-blue-400 text-2xl mt-0.5">💡</span>
+                <div>
+                    <h3 class="font-bold text-blue-300 text-sm md:text-base">تشغيل مباشر 100% وبدون مشاكل بايثون!</h3>
+                    <p class="text-xs text-slate-300 leading-relaxed mt-1">تتميز هذه اللوحة بقدرتها على العمل فوراً على أي متصفح في الويندوز. يمكنك التحكم بتعطيل حسابات الأجهزة، وتجميدها مع حفظ كامل للتعديلات في الذاكرة لتجربتها مباشرة على الأندرويد.</p>
+                </div>
+            </div>
+            <button onclick="this.parentElement.remove()" class="text-xs text-slate-400 hover:text-slate-200 underline shrink-0">إغلاق التنبيه</button>
+        </div>
+
+        <!-- KPI Executive Dashboard Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <!-- Card 1 -->
+            <div class="bg-slate-800 border border-slate-700/60 rounded-2xl p-5 hover:border-blue-500/30 transition-all">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-slate-400 text-xs font-semibold">إجمالي الفروع والأجهزة</p>
+                        <h2 id="kpi-total" class="text-3xl font-extrabold text-blue-400 mt-2">0</h2>
+                    </div>
+                    <div class="p-3 bg-blue-500/10 text-blue-400 rounded-xl">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="bg-slate-800 border border-slate-700/60 rounded-2xl p-5 hover:border-emerald-500/30 transition-all">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-slate-400 text-xs font-semibold">الأجهزة النشطة اليوم</p>
+                        <h2 id="kpi-active" class="text-3xl font-extrabold text-emerald-400 mt-2">0</h2>
+                    </div>
+                    <div class="p-3 bg-emerald-500/10 text-emerald-400 rounded-xl">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="bg-slate-800 border border-slate-700/60 rounded-2xl p-5 hover:border-rose-500/30 transition-all">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-slate-400 text-xs font-semibold">تراخيص معطلة ومجمدة</p>
+                        <h2 id="kpi-frozen" class="text-3xl font-extrabold text-rose-400 mt-2">0</h2>
+                    </div>
+                    <div class="p-3 bg-rose-500/10 text-rose-400 rounded-xl">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="bg-slate-800 border border-slate-700/60 rounded-2xl p-5 hover:border-amber-500/30 transition-all">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <p class="text-slate-400 text-xs font-semibold">حجم قاعدة البيانات المشترك</p>
+                        <h2 id="kpi-size" class="text-3xl font-extrabold text-amber-400 mt-2">0 KB</h2>
+                    </div>
+                    <div class="p-3 bg-amber-500/10 text-amber-400 rounded-xl">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls Toolbar -->
+        <div class="flex flex-col sm:flex-row justify-between items-center bg-slate-800/80 border border-slate-700 rounded-2xl p-4 gap-4">
+            <div class="relative w-full sm:max-w-md">
+                <input id="search-input" oninput="renderTable()" type="text" placeholder="ابحث باسم العميل، معرف المشترك (Client ID) أو رقم الجوال..." class="w-full bg-slate-900 border border-slate-700 rounded-xl py-2.5 pr-10 pl-4 text-sm text-white placeholder-slate-400 focus:outline-none focus:border-blue-500 transition-colors">
+                <div class="absolute inset-y-0 right-0 pr-3.5 flex items-center pointer-events-none text-slate-400">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-3 w-full sm:w-auto justify-end">
+                <button onclick="toggleModal('add-client-modal', true)" class="bg-blue-600 hover:bg-blue-500 px-4 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2 transition shadow-lg shadow-blue-950/40 w-full sm:w-auto justify-center">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    </svg>
+                    <span>إضافة عميل / ترخيص جديد</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Clients Datatable Window -->
+        <div class="bg-slate-800 border border-slate-700 rounded-2xl overflow-hidden shadow-xl">
+            <div class="p-6 border-b border-slate-700 flex justify-between items-center">
+                <h3 class="font-extrabold text-base text-white">إحصائيات وقائمة التراخيص السحابية المشتركة</h3>
+                <span class="text-xs text-slate-400">انقر على أي رخصة لمشاهدة تفاصيل البيانات</span>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-right border-collapse">
+                    <thead>
+                        <tr class="bg-slate-900/50 text-slate-400 text-xs font-semibold border-b border-slate-700/50">
+                            <th class="p-4">أيدي الترخيص (Client ID)</th>
+                            <th class="p-4">اسم المنشأة والنشاط</th>
+                            <th class="p-4">رقم الجوال</th>
+                            <th class="p-4 text-center">الحسابات المضافة</th>
+                            <th class="p-4 text-center">القيود والعمليات</th>
+                            <th class="p-4 text-center">حجم البيانات</th>
+                            <th class="p-4">تاريخ المزامنة</th>
+                            <th class="p-4 text-center">الحالة الإدارية</th>
+                            <th class="p-4 text-center">خيارات التحكم المباشر</th>
+                        </tr>
+                    </thead>
+                    <tbody id="clients-table-body" class="divide-y divide-slate-700/40 text-sm">
+                        <!-- Content auto populated by Javascript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer System Banner -->
+    <footer class="mt-auto border-t border-slate-800 bg-slate-950 py-4 px-6 text-slate-500 text-xs">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p>© 2026 المحاسب anas برو - تمنحك هذه اللوحة السيادة والتحكم الإداري الكامل عبر السحاب.</p>
+            <p>التحديث الأخير: آمن وتلقائي</p>
+        </div>
+    </footer>
+
+    <!-- MODAL: Add Client -->
+    <div id="add-client-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl animate-in fade-in duration-200">
+            <div class="p-5 border-b border-slate-800 flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <span class="text-lg">➕</span>
+                    <h3 class="font-extrabold text-base text-white">إضافة ترخيص عميل / منشأة جديدة</h3>
+                </div>
+                <button onclick="toggleModal('add-client-modal', false)" class="text-slate-400 hover:text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <form id="add-client-form" onsubmit="saveNewClient(event)" class="p-5 space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-400 mb-1.5">معرف الترخيص (Client ID) <span class="text-red-500">*</span></label>
+                    <input type="text" id="form-client-id" required placeholder="مثال: anas-pro-client-77" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500">
+                    <p class="text-[10px] text-slate-500 mt-1">يجب أن يتطابق مع المعرف المكتوب في إعدادات الهاتف لكي تصله المزامنة.</p>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-400 mb-1.5">اسم المنشأة والمالك <span class="text-red-500">*</span></label>
+                    <input type="text" id="form-business-name" required placeholder="مثال: سوبرماركت الهناء برو" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-400 mb-1.5">رقم الهاتف والجوال</label>
+                    <input type="text" id="form-business-phone" placeholder="مثال: +967 770000000" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500">
+                </div>
+                <div class="grid grid-cols-3 gap-3">
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-400 mb-1">الحسابات</label>
+                        <input type="number" id="form-accounts" value="12" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-400 mb-1 flex items-center justify-between">
+                            <span>العمليات</span>
+                        </label>
+                        <input type="number" id="form-transactions" value="142" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-slate-400 mb-1">الحجم (KB)</label>
+                        <input type="number" id="form-size" step="0.1" value="15.5" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500">
+                    </div>
+                </div>
+                <div class="pt-2 flex justify-end gap-3 border-t border-slate-800">
+                    <button type="button" onclick="toggleModal('add-client-modal', false)" class="bg-slate-800 hover:bg-slate-700 px-4 py-2.5 rounded-xl text-xs font-bold text-slate-300">إلغاء</button>
+                    <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 px-5 py-2.5 rounded-xl text-xs font-bold text-white shadow-lg shadow-emerald-950/40">تسجيل وتنشيط الترخيص</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Feedback Notification Popups -->
+    <div id="toast-container" class="fixed bottom-6 left-6 space-y-3 z-50"></div>
+
+    <script>
+        // Default Client Database for Mock/Testing Storage
+        const INITIAL_CLIENTS = [
+            {
+                "client_id": "anas-pro-client-7711",
+                "business_name": "مؤسسة أنس للمقاولات العامة",
+                "business_phone": "+967 770123456",
+                "accounts_count": 48,
+                "transactions_count": 312,
+                "backup_date": Date.now() - 250000000,
+                "is_frozen": false,
+                "data_size_kb": 245.8
+            },
+            {
+                "client_id": "anas-pro-client-5322",
+                "business_name": "سوبرماركت الأمانة والخير",
+                "business_phone": "+967 775555444",
+                "accounts_count": 125,
+                "transactions_count": 1420,
+                "backup_date": Date.now() - 100000000,
+                "is_frozen": false,
+                "data_size_kb": 890.4
+            },
+            {
+                "client_id": "anas-pro-client-9884",
+                "business_name": "شركة عدن للاستيراد والتصدير",
+                "business_phone": "+967 733999111",
+                "accounts_count": 92,
+                "transactions_count": 870,
+                "backup_date": Date.now() - 1500000000,
+                "is_frozen": true,
+                "data_size_kb": 512.0
+            }
+        ];
+
+        // Retrieve from localStorage or set defaults
+        function getDatabase() {
+            const db = localStorage.getItem('anas_pro_ledger_clients');
+            if (db) {
+                return JSON.parse(db);
+            } else {
+                localStorage.setItem('anas_pro_ledger_clients', JSON.stringify(INITIAL_CLIENTS));
+                return INITIAL_CLIENTS;
+            }
+        }
+
+        function saveDatabase(data) {
+            localStorage.setItem('anas_pro_ledger_clients', JSON.stringify(data));
+            calculateStats();
+            renderTable();
+        }
+
+        function resetToDefaults() {
+            if (confirm("هل أنت متأكد من رغبتك في إعادة تعيين لوحة التحكم واستعادة البيانات الأولية؟")) {
+                localStorage.removeItem('anas_pro_ledger_clients');
+                calculateStats();
+                renderTable();
+                showToast("تم إعادة تعيين لوحة التحكم بنجاح! 🧹", "info");
+            }
+        }
+
+        // Toggle Dialog modals
+        function toggleModal(id, show) {
+            const modal = document.getElementById(id);
+            if (show) {
+                modal.classList.remove('hidden');
+                document.getElementById('form-client-id').value = "anas-pro-" + Math.floor(1000 + Math.random() * 9000);
+            } else {
+                modal.classList.add('hidden');
+                document.getElementById('add-client-form').reset();
+            }
+        }
+
+        // Add manually
+        function saveNewClient(event) {
+            event.preventDefault();
+            const clientId = document.getElementById('form-client-id').value.trim();
+            const name = document.getElementById('form-business-name').value.trim();
+            const phone = document.getElementById('form-business-phone').value.trim() || "غير متوفر";
+            const accounts = parseInt(document.getElementById('form-accounts').value) || 0;
+            const transactions = parseInt(document.getElementById('form-transactions').value) || 0;
+            const size = parseFloat(document.getElementById('form-size').value) || 2.5;
+
+            const db = getDatabase();
+            
+            // Check for duplicate
+            if (db.some(c => c.client_id === clientId)) {
+                alert("معرّف الترخيص مكرر ومسجل مسبقاً لمستخدم آخر!");
+                return;
+            }
+
+            db.push({
+                client_id: clientId,
+                business_name: name,
+                business_phone: phone,
+                accounts_count: accounts,
+                transactions_count: transactions,
+                backup_date: Date.now(),
+                is_frozen: false,
+                data_size_kb: size
+            });
+
+            saveDatabase(db);
+            toggleModal('add-client-modal', false);
+            showToast(`✓ تم إضافة وتفعيل رخصة العميل: ${name} بنجاح! 🟢`, "success");
+        }
+
+        // Set frozen / activated
+        function setClientStatus(clientId, isFrozen) {
+            const db = getDatabase();
+            const idx = db.findIndex(c => c.client_id === clientId);
+            if (idx !== -1) {
+                db[idx].is_frozen = isFrozen;
+                saveDatabase(db);
+                
+                if (isFrozen) {
+                    showToast(`⚠️ تم تجميد حساب العميل ${clientId} بنجاح. سيتم حظر التطبيق وتجميده فوراً!`, "danger");
+                } else {
+                    showToast(`✓ تم تنشيط وفك تجميد حساب العميل ${clientId}. عاد التطبيق لوضعه الطبيعي! 🟢`, "success");
+                }
+            }
+        }
+
+        function calculateStats() {
+            const db = getDatabase();
+            const total = db.length;
+            const active = db.filter(c => !c.is_frozen).length;
+            const frozen = total - active;
+            const totalSize = db.reduce((sum, c) => sum + (c.data_size_kb || 0.0), 0.0);
+
+            document.getElementById('kpi-total').textContent = total;
+            document.getElementById('kpi-active').textContent = active;
+            document.getElementById('kpi-frozen').textContent = frozen;
+            document.getElementById('kpi-size').textContent = totalSize.toFixed(1) + " KB";
+        }
+
+        function renderTable() {
+            const db = getDatabase();
+            const tbody = document.getElementById('clients-table-body');
+            const searchVal = document.getElementById('search-input').value.toLowerCase().trim();
+            tbody.innerHTML = '';
+
+            const filtered = db.filter(c => 
+                c.client_id.toLowerCase().includes(searchVal) || 
+                c.business_name.toLowerCase().includes(searchVal) || 
+                (c.business_phone && c.business_phone.includes(searchVal))
+            );
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="9" class="p-8 text-center text-slate-500">
+                            لا يوجد أي نتائج مطابقة لبحثك.. تأكد من كتابة معرف الجهاز بأسلوب صحيح 📱
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            filtered.forEach(c => {
+                const isFrozen = c.is_frozen;
+                const dateStr = c.backup_date ? new Date(c.backup_date).toLocaleString('ar-YE', {
+                    year: 'numeric', month: 'numeric', day: 'numeric',
+                    hour: '2-digit', minute: '2-digit'
+                }) : "لم يُزامن بعد";
+
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-700/20 border-b border-slate-700/30 transition-colors">
+                        <td class="p-4 font-bold text-blue-400 select-all">${c.client_id}</td>
+                        <td class="p-4">
+                            <div class="font-semibold text-white">${c.business_name}</div>
+                            <div class="text-[10px] text-slate-500 mt-0.5">مسجل ومقترن سحابياً</div>
+                        </td>
+                        <td class="p-4 text-slate-300 font-mono text-xs">${c.business_phone || "غير متوفر"}</td>
+                        <td class="p-4 text-center font-bold text-slate-300">${c.accounts_count}</td>
+                        <td class="p-4 text-center font-bold text-slate-300">${c.transactions_count}</td>
+                        <td class="p-4 text-center font-bold text-amber-400/90">${(c.data_size_kb || 0).toFixed(1)} KB</td>
+                        <td class="p-4 text-xs text-slate-400">${dateStr}</td>
+                        <td class="p-4">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold ${
+                                isFrozen ? 'bg-red-500/10 text-red-400 border border-red-500/20' : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                            }">
+                                <span class="w-1.5 h-1.5 rounded-full ${isFrozen ? 'bg-red-500' : 'bg-emerald-500'}"></span>
+                                ${isFrozen ? 'مجمد وموقوف 🛑' : 'نشط ومصرح 🟢'}
+                            </span>
+                        </td>
+                        <td class="p-4 text-center">
+                            <div class="flex items-center justify-center gap-2">
+                                <button onclick="setClientStatus('${c.client_id}', true)" ${isFrozen ? 'disabled class="opacity-30 cursor-not-allowed"' : 'class="bg-red-500/15 text-red-400 hover:bg-red-500/25 p-1.5 rounded-lg transition"'} title="تجميد الجهاز ومنعه من العمل">
+                                    🛑 تجميد
+                                </button>
+                                <button onclick="setClientStatus('${c.client_id}', false)" ${!isFrozen ? 'disabled class="opacity-30 cursor-not-allowed"' : 'class="bg-emerald-500/15 text-emerald-400 hover:bg-emerald-500/25 p-1.5 rounded-lg transition"'} title="تنشيط وفك التجميد">
+                                    🟢 تفعيل
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        // Custom notification system (Feedback toasts)
+        function showToast(message, type = "success") {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            
+            const bgClass = type === 'success' ? 'bg-emerald-950 border border-emerald-500/30 text-emerald-300' :
+                            type === 'danger' ? 'bg-rose-950 border border-rose-500/30 text-rose-300' :
+                            'bg-slate-900 border border-slate-700 text-slate-300';
+                            
+            toast.className = `p-4 rounded-xl shadow-2xl ${bgClass} flex items-center justify-between gap-4 max-w-sm transition-all duration-300 translate-y-2 opacity-0 text-xs font-semibold`;
+            toast.innerHTML = `
+                <span>${message}</span>
+                <button class="text-slate-400 hover:text-white shrink-0" onclick="this.parentElement.remove()">❌</button>
+            `;
+            
+            container.appendChild(toast);
+            
+            // Trigger animation
+            setTimeout(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            }, 50);
+
+            // Auto-dismiss
+            setTimeout(() => {
+                toast.classList.add('translate-y-2', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 6000);
+        }
+
+        // Load initially
+        window.addEventListener('DOMContentLoaded', () => {
+            calculateStats();
+            renderTable();
+            showToast("👋 مرحباً بك في لوحة تحكم المحاسب anas برو السحابية!", "info");
+        });
+    </script>
+</body>
+</html>

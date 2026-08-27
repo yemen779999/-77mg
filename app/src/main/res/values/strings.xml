@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">المحاسب الشامل</string>
+    <string name="nav_dashboard">الرئيسية</string>
+    <string name="nav_accounts">الحسابات</string>
+    <string name="nav_operations">العمليات</string>
+    <string name="nav_advisor">المستشار</string>
+    <string name="nav_settings">الإعدادات</string>
+    <string name="nav_trash">سلة المحذوفات</string>
+    <string name="app_title">المحاسب الشامل • Pro Ledger</string>
+    <string name="enter_pin_prompt">أدخل رمز PIN المكون من 4 أرقام لفتح التطبيق</string>
+    <string name="invalid_pin">الرمز السري غير صحيح، يرجى المحاولة مرة أخرى</string>
+</resources>
